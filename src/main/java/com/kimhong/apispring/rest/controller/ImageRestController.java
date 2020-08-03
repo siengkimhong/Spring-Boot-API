@@ -34,7 +34,7 @@ public class ImageRestController {
     // produces = Accept
     @PostMapping(value = ApiConstant.UPLOAD_IMAGE_URL,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<ImageResponse>> uploadImage(
             @RequestParam("image") MultipartFile image
             ){
@@ -43,28 +43,31 @@ public class ImageRestController {
 
         String imageName= "";
         String imageUri = "";
+        String originalName = "";
         if (!image.isEmpty()){
-            String originalName = image.getOriginalFilename();
-            imageName = UUID.randomUUID().toString()
-                    + originalName.substring(originalName.lastIndexOf("."));
-            imageUri = baseUrl + "/images/" + imageName;
-            try {
-                Files.copy(image.getInputStream(), Paths.get(serverPath + imageName));
-            } catch (IOException e) {
-                e.printStackTrace();
+            originalName = image.getOriginalFilename();
+            if (originalName != null)
+            {
+                imageName = UUID.randomUUID().toString()
+                        + originalName.substring(originalName.lastIndexOf("."));
+                imageUri = baseUrl + "/images/" + imageName;
+                try {
+                    Files.copy(image.getInputStream(), Paths.get(serverPath + imageName));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ImageResponse imageResponse = new ImageResponse();
+
+                imageResponse.setName(imageName);
+                imageResponse.setUri(imageUri);
+                imageResponse.setFileType(image.getContentType());
+                imageResponse.setFileSize(image.getSize());
+                response.setResponse(SuccessMessage.UPLOADED_IMAGE.value(),
+                        true, HttpStatus.CREATED.value(),
+                        imageResponse);
+                return ResponseEntity.ok(response);
             }
-
-            ImageResponse imageResponse = new ImageResponse();
-            imageResponse.setName(imageName);
-            imageResponse.setUri(imageUri);
-            imageResponse.setFileType(image.getContentType());
-            imageResponse.setFileSize(image.getSize());
-            response.setResponse(SuccessMessage.UPLOADED_IMAGE.value(),
-                    true, HttpStatus.CREATED.value(),
-                    imageResponse);
-
         }
-
-        return ResponseEntity.ok(response);
+        return null;
     }
 }

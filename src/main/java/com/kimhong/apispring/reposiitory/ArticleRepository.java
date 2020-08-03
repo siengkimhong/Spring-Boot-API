@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleRepository {
 
-    @InsertProvider(type = ArticleProvider.class, method = "saveSql")
+    @InsertProvider(type = ArticleProvider.class, method = "saveArticleSql")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void save(ArticleDto articleDto);
 }

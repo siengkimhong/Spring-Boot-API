@@ -4,7 +4,11 @@ import com.kimhong.apispring.reposiitory.ArticleRepository;
 import com.kimhong.apispring.reposiitory.dto.ArticleDto;
 import com.kimhong.apispring.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -18,7 +22,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto save(ArticleDto newArticle) {
-        articleRepository.save(newArticle);
-        return newArticle;
+
+        try{
+            newArticle.setArticleId(UUID.randomUUID().toString());
+            articleRepository.save(newArticle);
+            return newArticle;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getCause().getMessage());
+        }
     }
 }

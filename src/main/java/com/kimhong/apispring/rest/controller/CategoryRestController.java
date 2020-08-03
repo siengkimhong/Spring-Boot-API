@@ -25,18 +25,6 @@ public class CategoryRestController {
 
     private final CategoryServiceImpl service;
     private ModelMapper mapper;
-    private ApiResponse<CategoryResponse> response;
-    private ApiResponse<List<CategoryResponse>> listResponse;
-
-    @Autowired
-    public void setListApiResponse(ApiResponse<List<CategoryResponse>> listApiResponse) {
-        this.listResponse = listApiResponse;
-    }
-
-    @Autowired
-    public void setResponse(ApiResponse<CategoryResponse> response) {
-        this.response = response;
-    }
 
     @Autowired
     public void setMapper(ModelMapper mapper) {
@@ -52,23 +40,23 @@ public class CategoryRestController {
             description = "List all categories from PostgreSql")
     @GetMapping(ApiConstant.CATEGORIES_URL)
     ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategoriesAction() {
-        //ApiResponse<List<CategoryResponse>> apiResponse = new ApiResponse<>();
-        //ModelMapper modelMapper = new ModelMapper();
+        ApiResponse<List<CategoryResponse>> apiResponse = new ApiResponse<>();
+        ModelMapper modelMapper = new ModelMapper();
         List<CategoryDto> categoryDtoList = service.findAll();
         List<CategoryResponse> categoryResponseList = new ArrayList<>();
         for (CategoryDto categoryDto : categoryDtoList) {
             categoryResponseList.add(mapper.map(categoryDto, CategoryResponse.class));
         }
-        listResponse.setMessage(SuccessMessage.FOUND_ALL.value());
-        listResponse.setCode(HttpStatus.OK.value());
-        listResponse.setData(categoryResponseList);
-        listResponse.setTime(new Timestamp(System.currentTimeMillis()));
-        return ResponseEntity.ok(listResponse);
+        apiResponse.setMessage(SuccessMessage.FOUND_ALL.value());
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setData(categoryResponseList);
+        apiResponse.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping(ApiConstant.CATEGORIES_URL + "/{id}")
     ResponseEntity<ApiResponse<CategoryResponse>> getCategoryAction(@PathVariable int id){
-        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
+        ApiResponse<CategoryResponse> response = new ApiResponse<>();
         //ModelMapper modelMapper = new ModelMapper();
         CategoryDto categoryDto = service.findOne(id);
         if (categoryDto != null){
@@ -87,9 +75,10 @@ public class CategoryRestController {
     }
 
     @PostMapping(ApiConstant.CATEGORIES_URL)
-    ResponseEntity<ApiResponse<CategoryResponse>> addCategoryAction(@RequestBody CategoryRequest categoryRequest){
+    ResponseEntity<ApiResponse<CategoryResponse>> addCategoryAction(
+            @RequestBody CategoryRequest categoryRequest){
 
-        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
+        ApiResponse<CategoryResponse> response = new ApiResponse<>();
         //ModelMapper mapper = new ModelMapper();
 
         CategoryDto categoryDto = mapper.map(categoryRequest, CategoryDto.class);
@@ -105,10 +94,11 @@ public class CategoryRestController {
     }
 
     @PutMapping(ApiConstant.CATEGORIES_URL + "/{id}")
-    ResponseEntity<ApiResponse<CategoryResponse>> editCategoryAction(@PathVariable int id,
-                                                                     @RequestBody CategoryRequest categoryRequest){
+    ResponseEntity<ApiResponse<CategoryResponse>> editCategoryAction(
+            @PathVariable int id,
+            @RequestBody CategoryRequest categoryRequest){
 
-        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
+        ApiResponse<CategoryResponse> response = new ApiResponse<>();
         CategoryDto updateCategory = mapper.map(categoryRequest, CategoryDto.class);
         updateCategory.setId(id);
         CategoryDto categoryDto = service.update(updateCategory);
@@ -123,7 +113,7 @@ public class CategoryRestController {
     @DeleteMapping(ApiConstant.CATEGORIES_URL + "/{id}")
     ResponseEntity<ApiResponse<CategoryResponse>> deleteCategory(@PathVariable int id){
 
-        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
+        ApiResponse<CategoryResponse> response = new ApiResponse<>();
         if (service.findOne(id) !=null){
             service.delete(id);
             response.setMessage(SuccessMessage.IS_DELETE.value());

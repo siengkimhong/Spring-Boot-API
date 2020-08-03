@@ -4,7 +4,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class ArticleProvider {
 
-    public String saveArticle(){
+    public String saveArticleSql(){
         return new SQL(){{
             INSERT_INTO("articles");
             VALUES("article_id", "#{articleId");

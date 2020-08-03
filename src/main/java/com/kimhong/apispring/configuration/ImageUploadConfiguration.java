@@ -10,6 +10,7 @@ public class ImageUploadConfiguration implements WebMvcConfigurer {
 
     @Value("${file.upload.server-path}")
     String serverPath;
+
     @Value("${file.upload.client-path}")
     String clientPath;
 
