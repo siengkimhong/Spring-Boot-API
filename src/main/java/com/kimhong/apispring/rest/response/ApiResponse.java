@@ -73,4 +73,11 @@ public class ApiResponse<T> implements Serializable {
                 ", time=" + time +
                 '}';
     }
+
+    public void setResponse(String message, boolean success, int code, T data) {
+        this.message = message;
+        this.success = success;
+        this.code = code;
+        this.data = data;
+    }
 }

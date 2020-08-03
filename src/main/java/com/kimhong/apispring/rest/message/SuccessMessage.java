@@ -6,7 +6,8 @@ public enum SuccessMessage {
     FOUND_ONE("Record has been found successfully"),
     IS_SAVE("Record has been saved successfully"),
     IS_UPDATE("Record has been updated successfully"),
-    IS_DELETE("Record has been deleted successfully");
+    IS_DELETE("Record has been deleted successfully"),
+    UPLOADED_IMAGE("Image has been uploaded");
 
     private final String message;
 

@@ -23,8 +23,11 @@ public class CategoryResponse implements Serializable {
 
     @Override
     public String toString() {
-        return "CategoryReponse{" +
+        return "Category Response{" +
                 "name='" + name + '\'' +
                 '}';
     }
+
+
+
 }

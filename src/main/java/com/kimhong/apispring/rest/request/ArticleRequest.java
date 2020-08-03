@@ -1,51 +1,20 @@
-package com.kimhong.apispring.reposiitory.dto;
+package com.kimhong.apispring.rest.request;
 
 import com.kimhong.apispring.reposiitory.dto.CategoryDto;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class ArticleDto implements Serializable {
+public class ArticleRequest implements Serializable {
 
-    private int id;
-    private String articleId;
     private String title;
     private String description;
     private String thumbnail;
     private String author;
     private Date publishedDate;
     private CategoryDto category;
-    private boolean status;
 
-    public ArticleDto(int id, String articleId, String title, String description, String thumbnail, String author, Date publishedDate, CategoryDto category, boolean status) {
-        this.id = id;
-        this.articleId = articleId;
-        this.title = title;
-        this.description = description;
-        this.thumbnail = thumbnail;
-        this.author = author;
-        this.publishedDate = publishedDate;
-        this.category = category;
-        this.status = status;
-    }
-
-    public ArticleDto() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(String articleId) {
-        this.articleId = articleId;
+    public ArticleRequest() {
     }
 
     public String getTitle() {
@@ -96,26 +65,15 @@ public class ArticleDto implements Serializable {
         this.category = category;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
-        return "ArticleDto{" +
-                "id=" + id +
-                ", articleId='" + articleId + '\'' +
-                ", title='" + title + '\'' +
+        return "ArticleRequest{" +
+                "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", thumbnail='" + thumbnail + '\'' +
                 ", author='" + author + '\'' +
                 ", publishedDate=" + publishedDate +
                 ", category=" + category +
-                ", status=" + status +
                 '}';
     }
 }

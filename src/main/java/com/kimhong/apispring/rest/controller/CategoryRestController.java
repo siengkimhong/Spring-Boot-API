@@ -8,6 +8,7 @@ import com.kimhong.apispring.rest.request.CategoryRequest;
 import com.kimhong.apispring.rest.response.ApiResponse;
 import com.kimhong.apispring.rest.response.CategoryResponse;
 import com.kimhong.apispring.service.implement.CategoryServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,38 +21,58 @@ import java.util.List;
 
 @RestController
 @RequestMapping(ApiConstant.API_VERSION)
-public class CategoryController {
+public class CategoryRestController {
 
     private final CategoryServiceImpl service;
+    private ModelMapper mapper;
+    private ApiResponse<CategoryResponse> response;
+    private ApiResponse<List<CategoryResponse>> listResponse;
 
     @Autowired
-    public CategoryController(CategoryServiceImpl service) {
+    public void setListApiResponse(ApiResponse<List<CategoryResponse>> listApiResponse) {
+        this.listResponse = listApiResponse;
+    }
+
+    @Autowired
+    public void setResponse(ApiResponse<CategoryResponse> response) {
+        this.response = response;
+    }
+
+    @Autowired
+    public void setMapper(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
+
+    @Autowired
+    public CategoryRestController(CategoryServiceImpl service) {
         this.service = service;
     }
 
+    @Operation(summary = "List all categories" ,
+            description = "List all categories from PostgreSql")
     @GetMapping(ApiConstant.CATEGORIES_URL)
     ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategoriesAction() {
-        ApiResponse<List<CategoryResponse>> apiResponse = new ApiResponse<>();
-        ModelMapper modelMapper = new ModelMapper();
+        //ApiResponse<List<CategoryResponse>> apiResponse = new ApiResponse<>();
+        //ModelMapper modelMapper = new ModelMapper();
         List<CategoryDto> categoryDtoList = service.findAll();
         List<CategoryResponse> categoryResponseList = new ArrayList<>();
         for (CategoryDto categoryDto : categoryDtoList) {
-            categoryResponseList.add(modelMapper.map(categoryDto, CategoryResponse.class));
+            categoryResponseList.add(mapper.map(categoryDto, CategoryResponse.class));
         }
-        apiResponse.setMessage(SuccessMessage.FOUND_ALL.value());
-        apiResponse.setCode(HttpStatus.OK.value());
-        apiResponse.setData(categoryResponseList);
-        apiResponse.setTime(new Timestamp(System.currentTimeMillis()));
-        return ResponseEntity.ok(apiResponse);
+        listResponse.setMessage(SuccessMessage.FOUND_ALL.value());
+        listResponse.setCode(HttpStatus.OK.value());
+        listResponse.setData(categoryResponseList);
+        listResponse.setTime(new Timestamp(System.currentTimeMillis()));
+        return ResponseEntity.ok(listResponse);
     }
 
     @GetMapping(ApiConstant.CATEGORIES_URL + "/{id}")
     ResponseEntity<ApiResponse<CategoryResponse>> getCategoryAction(@PathVariable int id){
-        ApiResponse<CategoryResponse> response = new ApiResponse<>();
-        ModelMapper modelMapper = new ModelMapper();
+        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
+        //ModelMapper modelMapper = new ModelMapper();
         CategoryDto categoryDto = service.findOne(id);
         if (categoryDto != null){
-            CategoryResponse categoryResponse = modelMapper.map(categoryDto, CategoryResponse.class);
+            CategoryResponse categoryResponse = mapper.map(categoryDto, CategoryResponse.class);
             response.setMessage(SuccessMessage.FOUND_ONE.value());
             response.setCode(HttpStatus.OK.value());
             response.setData(categoryResponse);
@@ -68,8 +89,8 @@ public class CategoryController {
     @PostMapping(ApiConstant.CATEGORIES_URL)
     ResponseEntity<ApiResponse<CategoryResponse>> addCategoryAction(@RequestBody CategoryRequest categoryRequest){
 
-        ApiResponse<CategoryResponse> response = new ApiResponse<>();
-        ModelMapper mapper = new ModelMapper();
+        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
+        //ModelMapper mapper = new ModelMapper();
 
         CategoryDto categoryDto = mapper.map(categoryRequest, CategoryDto.class);
         CategoryDto saveCategory = service.save(categoryDto);
@@ -87,31 +108,22 @@ public class CategoryController {
     ResponseEntity<ApiResponse<CategoryResponse>> editCategoryAction(@PathVariable int id,
                                                                      @RequestBody CategoryRequest categoryRequest){
 
-        ApiResponse<CategoryResponse> response = new ApiResponse<>();
-        ModelMapper mapper = new ModelMapper();
+        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
         CategoryDto updateCategory = mapper.map(categoryRequest, CategoryDto.class);
-
-        if (service.findOne(id) !=null){
-            updateCategory.setId(id);
-            CategoryDto categoryDto = service.update(updateCategory);
-            CategoryResponse categoryResponse = mapper.map(categoryDto, CategoryResponse.class);
-            response.setMessage(SuccessMessage.IS_UPDATE.value());
-            response.setSuccess(true);
-            response.setCode(HttpStatus.CREATED.value());
-            response.setData(categoryResponse);
-        }else {
-            response.setMessage(FailureMessage.NOT_FOUND_BY_ID.value());
-            response.setSuccess(false);
-            response.setCode(HttpStatus.NO_CONTENT.value());
-            response.setData(null);
-        }
+        updateCategory.setId(id);
+        CategoryDto categoryDto = service.update(updateCategory);
+        CategoryResponse categoryResponse = mapper.map(categoryDto, CategoryResponse.class);
+        response.setResponse(SuccessMessage.IS_UPDATE.value(),
+                true,
+                HttpStatus.OK.value(),
+                categoryResponse);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping(ApiConstant.CATEGORIES_URL + "/{id}")
     ResponseEntity<ApiResponse<CategoryResponse>> deleteCategory(@PathVariable int id){
 
-        ApiResponse<CategoryResponse> response = new ApiResponse<>();
+        //ApiResponse<CategoryResponse> response = new ApiResponse<>();
         if (service.findOne(id) !=null){
             service.delete(id);
             response.setMessage(SuccessMessage.IS_DELETE.value());

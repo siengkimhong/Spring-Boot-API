@@ -2,6 +2,7 @@ package com.kimhong.apispring.service.implement;
 
 import com.kimhong.apispring.reposiitory.CategoryRepository;
 import com.kimhong.apispring.reposiitory.dto.CategoryDto;
+import com.kimhong.apispring.rest.message.FailureMessage;
 import com.kimhong.apispring.rest.request.CategoryRequest;
 import com.kimhong.apispring.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
+
+        if (categoryDto.getName().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    FailureMessage.CATEGORY_NAME_CANNOT_BE_EMPTY.value());
+        }
         try{
             categoryRepository.save(categoryDto);
             return categoryDto;
@@ -44,6 +50,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto update(CategoryDto updateCategory) {
+
+        CategoryDto category = categoryRepository.findOne(updateCategory.getId());
+        if (category == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    FailureMessage.NOT_FOUND_BY_ID.value());
+
+        if (updateCategory.getName().isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    FailureMessage.CATEGORY_NAME_CANNOT_BE_EMPTY.value());
+
         try{
             categoryRepository.update(updateCategory);
             return updateCategory;
