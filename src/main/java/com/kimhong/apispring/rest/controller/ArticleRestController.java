@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,8 +35,10 @@ public class ArticleRestController {
     }
 
     @GetMapping(ApiConstant.ARTICLES_URL)
-    public String getArticles(){
-        return "articles";
+    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getArticles(){
+        ApiResponse<List<ArticleResponse>> response = new ApiResponse<>();
+        List<ArticleDto> articleDtoList = service.findAl();
+        return getApiResponseResponseEntity(response, articleDtoList, mapper);
     }
 
     @PostMapping(ApiConstant.ARTICLES_URL)
@@ -51,6 +54,24 @@ public class ArticleRestController {
                 true,
                 HttpStatus.CREATED.value(),
                 articleResponse);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(ApiConstant.ARTICLES_URL_RECENT + "/{limit}")
+    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getRecentPost(@PathVariable int limit){
+        ApiResponse<List<ArticleResponse>> response = new ApiResponse<>();
+        List<ArticleDto> articleDtoList = service.recentPost(limit);
+        return getApiResponseResponseEntity(response, articleDtoList, mapper);
+    }
+
+    private static ResponseEntity<ApiResponse<List<ArticleResponse>>> getApiResponseResponseEntity(ApiResponse<List<ArticleResponse>> response, List<ArticleDto> articleDtoList, ModelMapper mapper) {
+        List<ArticleResponse> articleResponseList = new ArrayList<>();
+        for (ArticleDto a : articleDtoList){
+            articleResponseList.add(mapper.map(a, ArticleResponse.class));
+        }
+        response.setResponse(SuccessMessage.FOUND_ALL.value(), true,
+                HttpStatus.OK.value(),
+                articleResponseList);
         return ResponseEntity.ok(response);
     }
 }

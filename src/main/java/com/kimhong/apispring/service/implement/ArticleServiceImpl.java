@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,5 +31,15 @@ public class ArticleServiceImpl implements ArticleService {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getCause().getMessage());
         }
+    }
+
+    @Override
+    public List<ArticleDto> findAl() {
+        return articleRepository.findAll();
+    }
+
+    @Override
+    public List<ArticleDto> recentPost(int limit) {
+        return articleRepository.recentPost(limit);
     }
 }

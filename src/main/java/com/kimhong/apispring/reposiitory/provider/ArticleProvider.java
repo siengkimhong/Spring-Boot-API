@@ -15,4 +15,33 @@ public class ArticleProvider {
             VALUES("category_id", "#{category.id}");
         }}.toString();
     }
+
+    public String selectAll(){
+        return new SQL(){{
+            SELECT("*");
+            FROM("articles");
+            WHERE("status=true");
+            ORDER_BY("id desc");
+        }}.toString();
+    }
+
+    public String selectCategoryByArticleIdSql(){
+        return new SQL(){{
+            SELECT("c.id, c.name");
+            FROM("categories c");
+            INNER_JOIN("articles a ON a.category_id=c.id");
+            WHERE("c.status=true");
+            WHERE("a.id=#{id}");
+        }}.toString();
+    }
+
+    public String recentPostSQL(){
+        return new SQL(){{
+            SELECT("*");
+            FROM("articles");
+            WHERE("status=true");
+            ORDER_BY("id desc");
+            LIMIT("#{limit}");
+        }}.toString();
+    }
 }

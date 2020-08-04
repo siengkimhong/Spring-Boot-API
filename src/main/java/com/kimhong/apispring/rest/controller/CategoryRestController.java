@@ -41,7 +41,7 @@ public class CategoryRestController {
     @GetMapping(ApiConstant.CATEGORIES_URL)
     ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategoriesAction() {
         ApiResponse<List<CategoryResponse>> apiResponse = new ApiResponse<>();
-        ModelMapper modelMapper = new ModelMapper();
+        //ModelMapper modelMapper = new ModelMapper();
         List<CategoryDto> categoryDtoList = service.findAll();
         List<CategoryResponse> categoryResponseList = new ArrayList<>();
         for (CategoryDto categoryDto : categoryDtoList) {
