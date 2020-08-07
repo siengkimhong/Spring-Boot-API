@@ -1,6 +1,6 @@
 package com.kimhong.apispring.rest.request;
 
-import com.kimhong.apispring.reposiitory.dto.CategoryDto;
+import com.kimhong.apispring.repository.dto.CategoryDto;
 
 import java.io.Serializable;
 import java.util.Date;

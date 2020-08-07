@@ -1,6 +1,4 @@
-package com.kimhong.apispring.reposiitory.dto;
-
-import com.kimhong.apispring.reposiitory.dto.CategoryDto;
+package com.kimhong.apispring.repository.dto;
 
 import java.io.Serializable;
 import java.util.Date;

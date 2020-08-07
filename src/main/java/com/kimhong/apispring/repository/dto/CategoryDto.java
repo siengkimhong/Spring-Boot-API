@@ -1,4 +1,4 @@
-package com.kimhong.apispring.reposiitory.dto;
+package com.kimhong.apispring.repository.dto;
 
 import java.io.Serializable;
 

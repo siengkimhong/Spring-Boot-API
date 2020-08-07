@@ -1,9 +1,8 @@
-package com.kimhong.apispring.reposiitory;
+package com.kimhong.apispring.repository;
 
-import com.kimhong.apispring.reposiitory.dto.CategoryDto;
-import com.kimhong.apispring.reposiitory.provider.CategoryProvider;
+import com.kimhong.apispring.repository.dto.CategoryDto;
+import com.kimhong.apispring.repository.provider.CategoryProvider;
 
-import com.kimhong.apispring.rest.response.CategoryResponse;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

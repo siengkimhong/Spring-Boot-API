@@ -1,6 +1,6 @@
 package com.kimhong.apispring.service;
 
-import com.kimhong.apispring.reposiitory.dto.CategoryDto;
+import com.kimhong.apispring.repository.dto.CategoryDto;
 
 import java.util.List;
 

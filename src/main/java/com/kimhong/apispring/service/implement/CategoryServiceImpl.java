@@ -1,9 +1,8 @@
 package com.kimhong.apispring.service.implement;
 
-import com.kimhong.apispring.reposiitory.CategoryRepository;
-import com.kimhong.apispring.reposiitory.dto.CategoryDto;
+import com.kimhong.apispring.repository.CategoryRepository;
+import com.kimhong.apispring.repository.dto.CategoryDto;
 import com.kimhong.apispring.rest.message.FailureMessage;
-import com.kimhong.apispring.rest.request.CategoryRequest;
 import com.kimhong.apispring.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

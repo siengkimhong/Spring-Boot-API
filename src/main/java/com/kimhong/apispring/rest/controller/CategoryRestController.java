@@ -1,7 +1,7 @@
 package com.kimhong.apispring.rest.controller;
 
 import com.kimhong.apispring.constant.ApiConstant;
-import com.kimhong.apispring.reposiitory.dto.CategoryDto;
+import com.kimhong.apispring.repository.dto.CategoryDto;
 import com.kimhong.apispring.rest.message.FailureMessage;
 import com.kimhong.apispring.rest.message.SuccessMessage;
 import com.kimhong.apispring.rest.request.CategoryRequest;

@@ -1,4 +1,4 @@
-package com.kimhong.apispring.reposiitory.provider;
+package com.kimhong.apispring.repository.provider;
 
 import org.apache.ibatis.jdbc.SQL;
 

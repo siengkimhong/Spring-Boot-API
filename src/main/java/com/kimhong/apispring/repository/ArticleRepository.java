@@ -1,8 +1,8 @@
-package com.kimhong.apispring.reposiitory;
+package com.kimhong.apispring.repository;
 
-import com.kimhong.apispring.reposiitory.dto.ArticleDto;
-import com.kimhong.apispring.reposiitory.dto.CategoryDto;
-import com.kimhong.apispring.reposiitory.provider.ArticleProvider;
+import com.kimhong.apispring.repository.dto.ArticleDto;
+import com.kimhong.apispring.repository.dto.CategoryDto;
+import com.kimhong.apispring.repository.provider.ArticleProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -37,4 +37,12 @@ public interface ArticleRepository {
     @SelectProvider(type = ArticleProvider.class, method = "recentPostSQL")
     @ResultMap("articleMap")
     List<ArticleDto> recentPost(int limit);
+
+
+    @SelectProvider(type = ArticleProvider.class, method = "mostPopularCategorySql")
+    List<CategoryDto> mostPopularCategory(int limit);
+
+    @ResultMap("articleMap")
+    @SelectProvider(type = ArticleProvider.class, method = "mostPopularArticleByCategorySql")
+    ArticleDto mostPopularArticleByCategory(int id);
 }

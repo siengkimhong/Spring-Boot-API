@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan("com.kimhong.apispring.reposiitory")
+@MapperScan("com.kimhong.apispring.repository")  //please run bong
 public class MyBatisConfiguration {
     private DataSource dataSource;
 

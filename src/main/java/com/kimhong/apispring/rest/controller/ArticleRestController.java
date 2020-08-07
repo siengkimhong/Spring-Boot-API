@@ -1,14 +1,13 @@
 package com.kimhong.apispring.rest.controller;
 
 import com.kimhong.apispring.constant.ApiConstant;
-import com.kimhong.apispring.reposiitory.dto.ArticleDto;
+import com.kimhong.apispring.repository.dto.ArticleDto;
 import com.kimhong.apispring.rest.message.SuccessMessage;
 import com.kimhong.apispring.rest.request.ArticleRequest;
 import com.kimhong.apispring.rest.response.ApiResponse;
 import com.kimhong.apispring.rest.response.ArticleResponse;
 import com.kimhong.apispring.service.implement.ArticleServiceImpl;
 import org.modelmapper.ModelMapper;
-import org.springdoc.api.AbstractOpenApiResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +63,10 @@ public class ArticleRestController {
         return getApiResponseResponseEntity(response, articleDtoList, mapper);
     }
 
-    private static ResponseEntity<ApiResponse<List<ArticleResponse>>> getApiResponseResponseEntity(ApiResponse<List<ArticleResponse>> response, List<ArticleDto> articleDtoList, ModelMapper mapper) {
+    private static ResponseEntity<ApiResponse<List<ArticleResponse>>> getApiResponseResponseEntity(
+            ApiResponse<List<ArticleResponse>> response,
+            List<ArticleDto> articleDtoList, ModelMapper mapper
+    ) {
         List<ArticleResponse> articleResponseList = new ArrayList<>();
         for (ArticleDto a : articleDtoList){
             articleResponseList.add(mapper.map(a, ArticleResponse.class));
@@ -73,5 +75,13 @@ public class ArticleRestController {
                 HttpStatus.OK.value(),
                 articleResponseList);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(ApiConstant.ARTICCES_URL_POP + "/{limit}")
+    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getMostPopularArticle(@PathVariable int limit){
+
+        ApiResponse<List<ArticleResponse>> response = new ApiResponse<>();
+        List<ArticleDto> articleDtoList = service.mostPopular(limit);
+        return getApiResponseResponseEntity(response, articleDtoList, mapper);
     }
 }

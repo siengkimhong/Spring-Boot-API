@@ -1,6 +1,6 @@
 package com.kimhong.apispring.service;
 
-import com.kimhong.apispring.reposiitory.dto.ArticleDto;
+import com.kimhong.apispring.repository.dto.ArticleDto;
 
 import java.util.List;
 
@@ -11,4 +11,6 @@ public interface ArticleService {
     List<ArticleDto> findAl();
 
     List<ArticleDto> recentPost(int limit);
+
+    List<ArticleDto> mostPopular(int limit);
 }
