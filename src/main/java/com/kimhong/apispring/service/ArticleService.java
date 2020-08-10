@@ -10,7 +10,7 @@ public interface ArticleService {
 
     List<ArticleDto> findAl();
 
-    List<ArticleDto> recentPost(int limit);
+    List<ArticleDto> recentPost();
 
-    List<ArticleDto> mostPopular(int limit);
+    List<ArticleDto> mostPopular();
 }

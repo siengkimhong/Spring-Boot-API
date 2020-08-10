@@ -56,10 +56,10 @@ public class ArticleRestController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(ApiConstant.ARTICLES_URL_RECENT + "/{limit}")
-    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getRecentPost(@PathVariable int limit){
+    @GetMapping(ApiConstant.ARTICLES_URL_RECENT)
+    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getRecentPost(){
         ApiResponse<List<ArticleResponse>> response = new ApiResponse<>();
-        List<ArticleDto> articleDtoList = service.recentPost(limit);
+        List<ArticleDto> articleDtoList = service.recentPost();
         return getApiResponseResponseEntity(response, articleDtoList, mapper);
     }
 
@@ -77,11 +77,11 @@ public class ArticleRestController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(ApiConstant.ARTICCES_URL_POP + "/{limit}")
-    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getMostPopularArticle(@PathVariable int limit){
+    @GetMapping(ApiConstant.ARTICCES_URL_POP)
+    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getMostPopularArticle(){
 
         ApiResponse<List<ArticleResponse>> response = new ApiResponse<>();
-        List<ArticleDto> articleDtoList = service.mostPopular(limit);
+        List<ArticleDto> articleDtoList = service.mostPopular();
         return getApiResponseResponseEntity(response, articleDtoList, mapper);
     }
 }

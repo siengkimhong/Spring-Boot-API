@@ -41,9 +41,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> recentPost(int limit) {
+    public List<ArticleDto> recentPost() {
         try{
-            return articleRepository.recentPost(limit);
+            return articleRepository.recentPost();
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     e.getCause().getMessage());
@@ -51,12 +51,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> mostPopular(int limit) {
-        List<CategoryDto> categoryDtoList = articleRepository.mostPopularCategory(limit);
-        List<ArticleDto> articleDtoList = new ArrayList<>();
-        for (CategoryDto cat : categoryDtoList){
-            articleDtoList.add(articleRepository.mostPopularArticleByCategory(cat.getId()));
-        }
+    public List<ArticleDto> mostPopular() {
+        List<ArticleDto> articleDtoList = articleRepository.mostPopularCategory();
+
         return articleDtoList;
     }
 }

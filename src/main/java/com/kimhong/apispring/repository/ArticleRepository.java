@@ -36,13 +36,10 @@ public interface ArticleRepository {
 
     @SelectProvider(type = ArticleProvider.class, method = "recentPostSQL")
     @ResultMap("articleMap")
-    List<ArticleDto> recentPost(int limit);
+    List<ArticleDto> recentPost();
 
 
     @SelectProvider(type = ArticleProvider.class, method = "mostPopularCategorySql")
-    List<CategoryDto> mostPopularCategory(int limit);
-
     @ResultMap("articleMap")
-    @SelectProvider(type = ArticleProvider.class, method = "mostPopularArticleByCategorySql")
-    ArticleDto mostPopularArticleByCategory(int id);
+    List<ArticleDto> mostPopularCategory();
 }

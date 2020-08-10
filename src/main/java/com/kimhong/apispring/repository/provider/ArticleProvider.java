@@ -41,7 +41,7 @@ public class ArticleProvider {
             FROM("articles");
             WHERE("status=true");
             ORDER_BY("id desc");
-            LIMIT("#{limit}");
+            LIMIT(3);
         }}.toString();
     }
 
@@ -49,22 +49,12 @@ public class ArticleProvider {
     //
     public String mostPopularCategorySql(){
         return new SQL(){{
-            SELECT("c.id, c.name");
-            FROM("articles a INNER JOIN categories c on c.id = a.category_id");
+            SELECT("a.*");
+            FROM("articles a INNER JOIN (SELECT count(category_id) count_category, " +
+                    "category_id from articles group by category_id) cat on a.category_id = cat.category_id");
             WHERE("a.status=true");
-            GROUP_BY("c.name, c.id");
-            ORDER_BY("count(category_id) desc");
-            LIMIT("#{limit}");
-        }}.toString();
-    }
-
-    public String mostPopularArticleByCategorySql(){
-        return new SQL(){{
-            SELECT("*");
-            FROM("articles");
-            WHERE("category_id=#{id}");
-            ORDER_BY("id DESC");
-            LIMIT(1);
+            ORDER_BY("count_category desc");
+            LIMIT(8);
         }}.toString();
     }
 }
